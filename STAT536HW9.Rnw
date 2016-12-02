@@ -1,0 +1,47 @@
+\documentclass[titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{titlesec}
+\pagestyle{fancy}
+\lhead{Jacob Dym, Justin Gomez, Paul Harmon}
+\chead{STAT 536, Homework 9}
+\rhead{12/07/2016}
+\setlength{\headheight}{20pt}
+\renewcommand{\headrulewidth}{0.2pt}
+\renewcommand{\footrulewidth}{0.2pt}
+\setlength{\parindent}{0pt}
+\begin{document}
+
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr)
+# set global chunk options
+opts_chunk$set(echo=TRUE,results='markup',message=FALSE, comment=NA,warning=
+                 FALSE,fig.width=6.5,fig.height=4,tidy=TRUE)
+@
+
+\begin{enumerate}
+\item %1
+
+\item %2
+
+\item %3
+
+\item %4
+
+\item %5
+
+\item %6
+
+\item %7
+
+\item %8
+
+\item %9
+
+\end{enumerate}
+\end{document}
