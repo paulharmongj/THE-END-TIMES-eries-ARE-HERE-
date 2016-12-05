@@ -22,11 +22,15 @@ library(knitr)
 # set global chunk options
 opts_chunk$set(echo=TRUE,results='markup',message=FALSE, comment=NA,warning=
                  FALSE,fig.width=6.5,fig.height=4,tidy=TRUE)
+bts<-read.csv("https://dl.dropboxusercontent.com/u/77307195/baikal.csv",header=T)
 @
 
 \begin{enumerate}
 \item %1
-
+<<1,echo=FALSE>>=
+Ice.ts <- ts(bts$Days,start=1869,freq=1)
+plot(Ice.ts,xlab='Year',ylab='Days with Ice',main='Annual number of Days with Ice on Lake')
+@
 \item %2
 
 \item %3
