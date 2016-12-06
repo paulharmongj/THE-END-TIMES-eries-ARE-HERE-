@@ -60,12 +60,12 @@ sum(subset(a,a[,2]==1)[,1])
 
 <<tidy.opts=list(width.cutoff=50)>>=
 #Fit an AR 18
-arma.18 <- gls(Days~year,correlation=corARMA(p = 18, q = 0),method="ML", data = bts)
+arma.18<-arima(x=Ice.ts,order=c(18,0,0))
+confint(arma.18)[18,]
 summary(arma.18)
 #Fit an AR 17 in the previous problem
 ests <- arma.18$modelStruct
 confint(ests)
-
 @
 
 \item %4
