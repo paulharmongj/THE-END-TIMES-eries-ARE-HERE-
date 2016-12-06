@@ -42,16 +42,10 @@ Table:
 <<tidy.opts=list(width.cutoff=50)>>=
 library(nlme)
 bts$year <- seq(1869,1996, by = 1)
-arma.1 <- gls(Days~year,correlation=corARMA(p = 17, q = 0),method="ML", data = bts)
-summary(arma.1)
-phi.1<-arma.1$modelStruct$corStruct
-phi.1<-as.numeric(as.character(phi.1))
-phi.1<-c(1,-phi.1)
-root.phi.1<-polyroot(phi.1)
-a<-a1<-as.matrix(cbind(phi.1[2:18],as.numeric(abs(root.phi.1)>1)))
-sum(subset(a,a[,2]==1)[,1])
-#the sum of the phi's with roots>1 are greater than 1 so the
-#process is non-stationary
+arma.1 <- arima(Ice.ts,order=c(17,0,0))
+roots <- polyroot(c(1,-arma.1$coef[1:17]))
+order1 <- order(Mod(roots))
+table.arma.1 <- data.frame(roots,Mod(roots),Period=(2*pi)/abs(Arg(roots)))[order1,]
 
 @
 
@@ -77,9 +71,7 @@ confint(arma.1)
 @
 
 \item %5
-<<tidy.opts=list(width.cutoff=50)>>=
-
-@
+The lower-level autoregressive coefficients that are not detected are 
 
 \item %6
 We fit the ACF, PACF, and EACF plots for these data. The ACF plot has a significant spike at hte 17th lag, as we might expect since we had some reason to fit an AR(17) model. Neither the ACF nor the PACF cut off after a certain lag; rather, we see a damping pattern occuring. This indicates that there may be some sort of ARMA process, but we cannot tell what the best combination of AR and MA pieces ought to be from the ACF/PACF plots. 
@@ -104,7 +96,10 @@ eacf(diff(bts[,1])) # have to make some changes because I added
 
 @
 \item %8
-We can fit the MA(1) model on the differenced series. 
+We can fit the MA(1) model on the differenced series. Writing out the model, we have:
+$$ $$ 
+When considering differencing, we have: 
+$$ $$ 
 <<tidy.opts = list(width.cutoff = 50)>>=
 dbts <- diff(bts[,1]) #differenced response
 teapot.1 <- arima(dbts, order = c(0,0,1))
