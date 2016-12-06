@@ -22,12 +22,12 @@ library(knitr)
 # set global chunk options
 opts_chunk$set(echo=TRUE,results='markup',message=FALSE, comment=NA,warning=
                  FALSE,fig.width=6.5,fig.height=4,tidy=TRUE)
-bts<-read.csv("https://dl.dropboxusercontent.com/u/77307195/baikal.csv",header=T)
 @
 
 \begin{enumerate}
 \item %1
-<<1,echo=FALSE>>=
+<<tidy.opts=list(width.cutoff=50)>>=
+bts<-read.csv("https://dl.dropboxusercontent.com/u/77307195/baikal.csv",header=T)
 Ice.ts <- ts(bts$Days,start=1869,freq=1)
 plot(Ice.ts,xlab='Year',ylab='Days with Ice',main='Annual number of Days with Ice on Lake', col = "tomato3")
 @
@@ -39,7 +39,7 @@ Stationarity:
 Quasiperiodicity:
 
 Table: 
-<<1,echo=FALSE>>=
+<<tidy.opts=list(width.cutoff=50)>>=
 library(nlme)
 bts$year <- seq(1869,1996, by = 1)
 arma.1 <- gls(Days~year,correlation=corARMA(p = 17, q = 0),method="ML", data = bts)
@@ -50,7 +50,7 @@ summary(arma.1)
 
 \item %3
 
-<<1,echo=FALSE>>=
+<<tidy.opts=list(width.cutoff=50)>>=
 #Fit an AR 18
 arma.18 <- gls(Days~year,correlation=corARMA(p = 18, q = 0),method="ML", data = bts)
 summary(arma.18)
@@ -64,17 +64,18 @@ confint(ests)
 
 The confidence interval for the "intercept" term is between 337.98 and 522.16. 
 
-<<1,echo=FALSE>>=
+<<tidy.opts=list(width.cutoff=50)>>=
 confint(arma.1)
 @
 
 \item %5
-<<1,echo=FALSE>>=
+<<tidy.opts=list(width.cutoff=50)>>=
 
 @
 
 \item %6
-<<1,echo=FALSE>>=
+<<tidy.opts=list(width.cutoff=50)>>=
+library(TSA)
 par(mfrow=c(2,1))
 acf(bts)
 pacf(bts)
@@ -82,15 +83,15 @@ eacf(bts)
 
 @
 \item %7
-<<1,echo=FALSE>>=
+<<tidy.opts=list(width.cutoff=50)>>=
 par(mfrow=c(2,1))
 acf(bts)
 pacf(bts)
-> eacf(bts)
+eacf(bts)
 
 @
 \item %8
-<<1,echo=FALSE>>=
+<<tidy.opts=list(width.cutoff=50)>>=
 
 @
 \item %9
