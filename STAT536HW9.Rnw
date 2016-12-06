@@ -44,7 +44,9 @@ library(nlme)
 bts$year <- seq(1869,1996, by = 1)
 arma.1 <- gls(Days~year,correlation=corARMA(p = 17, q = 0),method="ML", data = bts)
 summary(arma.1)
-phi.1<-c(arma.1$modelStruct)
+phi.1<-arma.1$modelStruct$corStruct
+phi.1<-as.numeric(as.character(phi.1))
+polyroot(phi.1)
 @
 
 
