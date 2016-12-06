@@ -48,7 +48,11 @@ phi.1<-arma.1$modelStruct$corStruct
 phi.1<-as.numeric(as.character(phi.1))
 phi.1<-c(1,-phi.1)
 root.phi.1<-polyroot(phi.1)
-a<-as.matrix(cbind(phi.1[2:18],as.numeric(abs(root.phi.1)>1)))
+a<-a1<-as.matrix(cbind(phi.1[2:18],as.numeric(abs(root.phi.1)>1)))
+sum(subset(a,a[,2]==1)[,1])
+#the sum of the phi's with roots>1 are greater than 1 so the
+#process is non-stationary
+
 @
 
 
