@@ -48,7 +48,7 @@ order17 <- order(Mod(roots))
 table.arma.17 <- data.frame(roots,Mod(roots),Period=(2*pi)/abs(Arg(roots)))[order17,]
 @
 
-All of the modulus roots for the ARMA(17,0,0) model are greater than 1, this indicates that the model is stationary. There appears to be potential quasi periodicity at the yearly intervals; 2.13, 5.98, 2.44, 2.92, 3.30, 8.91, 4.39, and 19.3 years/observations per a cycle.   
+Because the AR(17) model contains an odd number of coefficients, there must be one root that is non-complex for the model. The non complex root is the 8th with the value 1.02, all of the other roots are complex. All of the modulus roots for the ARMA(17,0,0) model are greater than 1, this indicates that the model is stationary. There appears to be potential quasi periodicity at the yearly intervals; 2.13, 5.98, 2.44, 2.92, 3.30, 8.91, 4.39, and 19.3 years/observations per a cycle.   
 
 \item %3
 
