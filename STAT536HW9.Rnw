@@ -69,7 +69,7 @@ intercept<-arma.17$coef[18]*(1-sum(arma.17$coef[1:17]))
 @
 
 \item %5
-Examining the confidence intervals for all of the lower order auto-regressive coefficients will tell us if they are different from zero at the 5\% significance. We can see that very few of the intervals do not contain zero; only the intervals for the second and sixth lags in fact are  different from zero.\\
+Examining the confidence intervals for all of the lower order auto-regressive coefficients will tell us if they are detectably different from zero at the 5\% significance level. We can see that very few of the intervals do not contain zero; only the intervals for the second and sixth lags in fact are detectably different from zero.\\
 
 <<>>=
 which(c[,1]<0 & c[,2]>0)
@@ -99,7 +99,7 @@ eacf(diff(bts[,1])) # have to make some changes because I added
 @
 \item %8
 We can fit the MA(1) model on the differenced series. Writing out the model, we have:
-$$ $$ 
+$$Y_t=e_t-\theta e_{t-1}$$ 
 When considering differencing, we have: 
 $$ $$ 
 <<tidy.opts = list(width.cutoff = 50)>>=
