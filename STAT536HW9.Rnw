@@ -32,13 +32,7 @@ Ice.ts <- ts(bts$Days,start=1869,freq=1)
 plot(Ice.ts,xlab='Year',ylab='Days with Ice',main='Annual number of Days with Ice on Lake', col = "tomato3")
 @
 \item %2
-Below we fit an ARMA(17,0). 
 
-Stationarity:
-
-Quasiperiodicity:
-
-Table: 
 <<tidy.opts=list(width.cutoff=50)>>=
 library(nlme)
 bts$year <- seq(1869,1996, by = 1)
@@ -46,10 +40,11 @@ arma.17 <- arima(Ice.ts,order=c(17,0,0))
 roots <- polyroot(c(1,-arma.17$coef[1:17]))
 order17 <- order(Mod(roots))
 table.arma.17 <- data.frame(roots,Mod(roots),Period=(2*pi)/abs(Arg(roots)))[order17,]
+#Table
 table.arma.17
 @
 
-Because the AR(17) model contains an odd number of coefficients, there must be one root that is non-complex for the model. The non complex root is the 8th with the value 1.02, all of the other roots are complex. All of the modulus roots for the ARMA(17,0,0) model are greater than 1, this indicates that the model is stationary. There appears to be potential quasi periodicity at the yearly intervals; 2.13, 5.98, 2.44, 2.92, 3.30, 8.91, 4.39, and 19.3 years/observations per a cycle.   
+Because the AR(17) model contains an odd number of lags, there must be one root that is non-complex for the model. The non-complex root is the 8th with the value 1.02, all of the other roots are complex. All of the modulus roots for the AR(17) model are greater than 1, this indicates that the model is stationary. There appears to be potential quasi periodicity at the yearly intervals; 2.13, 5.98, 2.44, 2.92, 3.30, 8.91, 4.39, and 19.3 years/observations per a cycle.   
 
 \item %3
 
@@ -65,7 +60,7 @@ confint(arma.17)[17,]
 
 \item %4
 
-The estimated "intercept" for the AR(17) model is 113.8428, with an associated 95\% confidence interval of (102.9768,124.7088). The mean number of days of ice on the lake each year is estimated to be 113.8428. To find the actual estimated intercept
+The estimated "intercept" for the AR(17) model is 113.8428, with an associated 95\% confidence interval of (102.9768,124.7088). The mean number of days of ice on the lake each year is estimated to be 113.8428. To find the actual estimated intercept $\theta_0$ we perform the following calculation: $\theta_0=\mu(1-\phi_1-\phi_2-...-\phi_p)$
 
 <<tidy.opts=list(width.cutoff=50)>>=
 arma.17
@@ -74,14 +69,14 @@ intercept<-arma.17$coef[18]*(1-sum(arma.17$coef[1:17]))
 @
 
 \item %5
-Examining the confidence intervals for all of the lower order autoregressive coefficients will tell us if they are different from zero at the 5\% significance. We can see that very few of the intervals do not contain zero; only the intervals for the second and sixth lags in fact are detectably different from zero.\\
+Examining the confidence intervals for all of the lower order auto-regressive coefficients will tell us if they are different from zero at the 5\% significance. We can see that very few of the intervals do not contain zero; only the intervals for the second and sixth lags in fact are  different from zero.\\
 
 <<>>=
 which(c[,1]<0 & c[,2]>0)
 @
 
 \item %6
-We fit the ACF, PACF, and EACF plots for these data. The ACF plot has a significant spike at hte 17th lag, as we might expect since we had some reason to fit an AR(17) model. Neither the ACF nor the PACF cut off after a certain lag; rather, we see a damping pattern occuring. This indicates that there may be some sort of ARMA process, but we cannot tell what the best combination of AR and MA pieces ought to be from the ACF/PACF plots. 
+We fit the ACF, PACF, and EACF plots for these data. The ACF plot has a significant spike at the 17th lag, as we might expect since we had some reason to fit an AR(17) model. Neither the ACF nor the PACF cut off after a certain lag; rather, we see a damping pattern occurring. This indicates that there may be some sort of ARMA process, but we cannot tell what the best combination of AR and MA pieces ought to be from the ACF/PACF plots. 
 
 Instead, we look at the EACF plot to figure this out. The AR(1)/MA(1) combination may be the best way to go because it gives us the simplest model that does not leave any information out; considering just an AR(1) or MA(1) do not provide clean explanations in and of themselves. 
 
