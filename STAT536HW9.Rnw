@@ -33,6 +33,8 @@ plot(Ice.ts,xlab='Year',ylab='Days with Ice',main='Annual number of Days with Ic
 @
 \item %2
 
+Because the AR(17) model contains an odd number of lags, there must be one root that is non-complex for the model. The non-complex root is the 8th with the value 1.02, all of the other roots are complex. All of the modulus roots for the AR(17) model are greater than 1, this indicates that the model is stationary. There appears to be potential quasi-periodicity at the yearly intervals. From the table below, we can see that the primary quasi-periodicity for this time series is 2.13 years per cycle, with a secondary quasi-periodicity of 5.98 years per cycle that we may be interested in as well.\\
+
 <<tidy.opts=list(width.cutoff=50)>>=
 library(nlme)
 bts$year <- seq(1869,1996, by = 1)
@@ -44,8 +46,6 @@ table.arma.17 <- data.frame(roots,Mod(roots),Period=(2*pi)/abs(Arg(roots)))[orde
 table.arma.17
 @
 
-Because the AR(17) model contains an odd number of lags, there must be one root that is non-complex for the model. The non-complex root is the 8th with the value 1.02, all of the other roots are complex. All of the modulus roots for the AR(17) model are greater than 1, this indicates that the model is stationary. There appears to be potential quasi periodicity at the yearly intervals; 2.13, 5.98, 2.44, 2.92, 3.30, 8.91, 4.39, and 19.3 years/observations per a cycle.   
-
 \item %3
 
 After fitting an AR(18) model to our time series object with the `arima` function, a confidence interval of (-0.1736,0.1909) has been obtained for the 18th lag in the model. We can see that this confidence interval contains zero, indicating that this term may not be different from zero and we should examine an AR(17) structure instead. After creating this model, we can obtain a confidence interval for the 17th lag: (0.1124,0.4709). This interval is entirely above zero, indicating that the 17th lag should be included in the model at the 5\% significance level.\\
@@ -54,16 +54,14 @@ After fitting an AR(18) model to our time series object with the `arima` functio
 #Fit an AR 18
 arma.18<-arima(x=Ice.ts,order=c(18,0,0))
 confint(arma.18)[18,]
-#Fit an AR 17 in the previous problem
 confint(arma.17)[17,]
 @
 
 \item %4
 
-The estimated "intercept" for the AR(17) model is 113.8428, with an associated 95\% confidence interval of (102.9768,124.7088). The mean number of days of ice on the lake each year is estimated to be 113.8428. To find the actual estimated intercept $\theta_0$ we perform the following calculation: $\theta_0=\mu(1-\phi_1-\phi_2-...-\phi_p)$
+The estimated "intercept" for the AR(17) model is 113.8428, with an associated 95\% confidence interval of (102.9768,124.7088). The mean number of days of ice on the lake each year is estimated to be 113.8428. To find the actual estimated intercept $\theta_{0}$ we perform the following calculation: $\theta_{0}=\mu(1-\phi_{1}-\phi_{2}-...-\phi_{17})$. This calculation yields an actual estimated intercept of 17.9347.\\
 
 <<tidy.opts=list(width.cutoff=50)>>=
-arma.17
 c<-confint(arma.17)
 intercept<-arma.17$coef[18]*(1-sum(arma.17$coef[1:17]))
 @
@@ -76,42 +74,41 @@ which(c[,1]<0 & c[,2]>0)
 @
 
 \item %6
-We fit the ACF, PACF, and EACF plots for these data. The ACF plot has a significant spike at the 17th lag, as we might expect since we had some reason to fit an AR(17) model. Neither the ACF nor the PACF cut off after a certain lag; rather, we see a damping pattern occurring. This indicates that there may be some sort of ARMA process, but we cannot tell what the best combination of AR and MA pieces ought to be from the ACF/PACF plots. 
+We fit the ACF, PACF, and EACF plots for these data. The ACF plot has a significant spike at the 17th lag, as we might expect since we had some reason to fit an AR(17) model. Neither the ACF nor the PACF cut off after a certain lag; rather, we see a slight damping pattern occurring. This indicates that there may be some sort of ARMA process, but we cannot tell what the best combination of AR and MA pieces ought to be from the ACF/PACF plots.\\
 
-Instead, we look at the EACF plot to figure this out. The AR(1)/MA(1) combination may be the best way to go because it gives us the simplest model that does not leave any information out; considering just an AR(1) or MA(1) do not provide clean explanations in and of themselves. 
+Instead, we look at the EACF plot to figure this out. The AR(1)/MA(1) combination may be the best way to go because it gives us the simplest model that does not leave any information out; considering just an AR(1) or MA(1) do not provide clean explanations in and of themselves.\\
 
 <<tidy.opts=list(width.cutoff=50)>>=
 library(TSA)
-par(mfrow=c(2,1))
-acf(bts[,1])
-pacf(bts[,1])
+acf(bts[,1],main="ACF")
+pacf(bts[,1],main="PACF")
 eacf(bts[,1])
-
 @
+
 \item %7
-We can repeat the same diagnostics with a first difference. By doing this, we can see that the ACF plot cuts off after lag 1 (with some possible spurious detections at later lags). Further, the PACF appears to tail off in that damping fashion that we expect from an MA model. The EACF plot indicates that an MA(1) model would be the simplest model that would be appropriate because there are no AR components necessary and the MA(1) is the simplest model that contains all the necessary information. 
-<<tidy.opts=list(width.cutoff=50)>>=
-par(mfrow=c(2,1))
-acf(diff(bts[,1]))
-pacf(diff(bts[,1]))
-eacf(diff(bts[,1])) # have to make some changes because I added 
+We can repeat the same diagnostics with a first difference. By doing this, we can see that the ACF plot cuts off after lag 1 (with some possible spurious detections at later lags). Further, the PACF appears to tail off in that damping fashion that we expect from an MA model. The EACF plot indicates that an MA(1) model would be the simplest model that would be appropriate because there are no AR components necessary and the MA(1) is the simplest model that contains all the necessary information.\\
 
+
+<<tidy.opts=list(width.cutoff=50)>>=
+acf(diff(bts[,1]),main="ACF")
+pacf(diff(bts[,1]),main="PACF")
+eacf(diff(bts[,1])) # have to make some changes because I added 
 @
+
 \item %8
-We can fit the MA(1) model on the differenced series. Writing out the model, we have:
-$$Y_t=e_t-\theta e_{t-1}$$ 
-When considering differencing, we have: 
+We can fit the MA(1) model on the differenced series. Writing out the model, we have:\\
+$$Y_t=e_t-\theta e_{t-1}$$\\
+When considering differencing, we have:\\
 $$ $$ 
 <<tidy.opts = list(width.cutoff = 50)>>=
 dbts <- diff(bts[,1]) #differenced response
 teapot.1 <- arima(dbts, order = c(0,0,1))
 teapot.1
-
 @
 
 
 \item %9
-Note that we are dealing with a pure MA model, so this is a confidence interval for the mean of the process. The test using the confidence intervals tells us that this model is, with 95 percent Confidence, between -0.23 and -0.115. Both values are below zero - this indicates that, due to the first differencing process, the number of days where the lake is ice covered is decreasing in time.  
+Note that we are dealing with a pure MA model, so this is a confidence interval for the mean of the process. The test using the confidence intervals tells us that this model is, with 95 percent Confidence, between -0.23 and -0.115. Both values are below zero - this indicates that, due to the first differencing process, the number of days where the lake is ice covered is decreasing in time.\\
 
 <<tidy.opts=list(width.cutoff=50)>>=
 confint(teapot.1)[2,] #gives the CI for the intercept
