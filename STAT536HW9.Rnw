@@ -79,17 +79,17 @@ confint(arma.1)
 <<tidy.opts=list(width.cutoff=50)>>=
 library(TSA)
 par(mfrow=c(2,1))
-acf(bts)
-pacf(bts)
-eacf(bts)
+acf(bts[,1])
+pacf(bts[,1])
+eacf(bts[,1])
 
 @
 \item %7
 <<tidy.opts=list(width.cutoff=50)>>=
 par(mfrow=c(2,1))
-acf(bts)
-pacf(bts)
-eacf(bts)
+acf(bts[,1])
+pacf(bts[,1])
+eacf(bts[,1]) # have to make some changes because I added 
 
 @
 \item %8
