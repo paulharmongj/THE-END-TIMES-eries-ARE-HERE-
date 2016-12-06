@@ -74,6 +74,10 @@ confint(arma.1)
 @
 
 \item %6
+We fit the ACF, PACF, and EACF plots for these data. The ACF plot has a significant spike at hte 17th lag, as we might expect since we had some reason to fit an AR(17) model. Neither the ACF nor the PACF cut off after a certain lag; rather, we see a damping pattern occuring. This indicates that there may be some sort of ARMA process, but we cannot tell what the best combination of AR and MA pieces ought to be from the ACF/PACF plots. 
+
+Instead, we look at the EACF plot to figure this out. The AR(1)/MA(1) combination may be the best way to go because it gives us the simplest model that does not leave any information out; considering just an AR(1) or MA(1) do not provide clean explanations in and of themselves. 
+
 <<tidy.opts=list(width.cutoff=50)>>=
 library(TSA)
 par(mfrow=c(2,1))
@@ -83,18 +87,30 @@ eacf(bts[,1])
 
 @
 \item %7
+We can repeat the same diagnostics with a first difference. By doing this, we can see that the ACF plot cuts off after lag 1 (with some possible spurious detections at later lags). Further, the PACF appears to tail off in that damping fashion that we expect from an MA model. The EACF plot indicates that an MA(1) model would be the simplest model that would be appropriate because there are no AR components necessary and the MA(1) is the simplest model that contains all the necessary information. 
 <<tidy.opts=list(width.cutoff=50)>>=
 par(mfrow=c(2,1))
-acf(bts[,1])
-pacf(bts[,1])
-eacf(bts[,1]) # have to make some changes because I added 
+acf(diff(bts[,1]))
+pacf(diff(bts[,1]))
+eacf(diff(bts[,1])) # have to make some changes because I added 
 
 @
 \item %8
-<<tidy.opts=list(width.cutoff=50)>>=
+We can fit the MA(1) model on the differenced series. 
+<<tidy.opts = list(width.cutoff = 50)>>=
+dbts <- diff(bts[,1]) #differenced response
+teapot.1 <- arima(dbts, order = c(0,0,1))
+teapot.1
 
 @
-\item %9
 
+
+\item %9
+The test using the confidence intervals tells us that this model is ____. It addresses the researcher's 
+
+
+<<tidy.opts=list(width.cutoff=50)>>=
+confint(teapot.1)[2,] #gives the CI for the intercept
+@
 \end{enumerate}
 \end{document}
