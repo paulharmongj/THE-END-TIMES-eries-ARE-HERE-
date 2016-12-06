@@ -29,9 +29,16 @@ bts<-read.csv("https://dl.dropboxusercontent.com/u/77307195/baikal.csv",header=T
 \item %1
 <<1,echo=FALSE>>=
 Ice.ts <- ts(bts$Days,start=1869,freq=1)
-plot(Ice.ts,xlab='Year',ylab='Days with Ice',main='Annual number of Days with Ice on Lake')
+plot(Ice.ts,xlab='Year',ylab='Days with Ice',main='Annual number of Days with Ice on Lake', col = "tomato3")
 @
 \item %2
+Fit an ARMA(17,0)
+<<1,echo=FALSE>>=
+library(nlme)
+arma.1 <- gls(ysim~x,correlation=corARMA(p = 17, q = 0),method="ML")
+@
+
+
 
 \item %3
 
