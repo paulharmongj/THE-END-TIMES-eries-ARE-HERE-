@@ -46,7 +46,9 @@ arma.1 <- gls(Days~year,correlation=corARMA(p = 17, q = 0),method="ML", data = b
 summary(arma.1)
 phi.1<-arma.1$modelStruct$corStruct
 phi.1<-as.numeric(as.character(phi.1))
-polyroot(phi.1)
+phi.1<-c(1,-phi.1)
+root.phi.1<-polyroot(phi.1)
+a<-as.matrix(cbind(phi.1[2:18],as.numeric(abs(root.phi.1)>1)))
 @
 
 
