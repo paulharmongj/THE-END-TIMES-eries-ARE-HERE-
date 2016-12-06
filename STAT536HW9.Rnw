@@ -52,14 +52,14 @@ All of the modulus roots for the ARMA(17,0,0) model are greater than 1, this ind
 
 \item %3
 
+After fitting an AR(18) model to our time series object with the `arima` function, a confidence interval of (-0.1736,0.1909) has been obtained for the 18th lag in the model. We can see that this confidence interval contains zero, indicating that this term may not be different from zero and we should examine an AR(17) structure instead. After creating this model, we can obtain a confidence interval for the 17th lag: (0.1124,0.4709). This interval is entirely above zero, indicating that the 17th lag should be included in the model at the 5\% significance level.\\
+
 <<tidy.opts=list(width.cutoff=50)>>=
 #Fit an AR 18
 arma.18<-arima(x=Ice.ts,order=c(18,0,0))
 confint(arma.18)[18,]
-summary(arma.18)
 #Fit an AR 17 in the previous problem
-ests <- arma.18$modelStruct
-confint(ests)
+confint(arma.17)[17,]
 @
 
 \item %4
