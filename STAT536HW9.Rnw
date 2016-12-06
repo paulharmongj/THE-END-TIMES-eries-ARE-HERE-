@@ -108,8 +108,7 @@ teapot.1
 
 
 \item %9
-The test using the confidence intervals tells us that this model is ____. It addresses the researcher's 
-
+Note that we are dealing with a pure MA model, so this is a confidence interval for the mean of the process. The test using the confidence intervals tells us that this model is, with 95 percent Confidence, between -0.23 and -0.115. Both values are below zero - this indicates that, due to the first differencing process, the number of days where the lake is ice covered is decreasing in time.  
 
 <<tidy.opts=list(width.cutoff=50)>>=
 confint(teapot.1)[2,] #gives the CI for the intercept
