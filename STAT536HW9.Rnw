@@ -77,9 +77,7 @@ confint(arma.1)
 @
 
 \item %5
-<<tidy.opts=list(width.cutoff=50)>>=
-
-@
+The lower-level autoregressive coefficients that are not detected are 
 
 \item %6
 We fit the ACF, PACF, and EACF plots for these data. The ACF plot has a significant spike at hte 17th lag, as we might expect since we had some reason to fit an AR(17) model. Neither the ACF nor the PACF cut off after a certain lag; rather, we see a damping pattern occuring. This indicates that there may be some sort of ARMA process, but we cannot tell what the best combination of AR and MA pieces ought to be from the ACF/PACF plots. 
@@ -104,7 +102,10 @@ eacf(diff(bts[,1])) # have to make some changes because I added
 
 @
 \item %8
-We can fit the MA(1) model on the differenced series. 
+We can fit the MA(1) model on the differenced series. Writing out the model, we have:
+$$ $$ 
+When considering differencing, we have: 
+$$ $$ 
 <<tidy.opts = list(width.cutoff = 50)>>=
 dbts <- diff(bts[,1]) #differenced response
 teapot.1 <- arima(dbts, order = c(0,0,1))
