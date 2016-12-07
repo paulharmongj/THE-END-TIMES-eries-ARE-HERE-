@@ -112,6 +112,7 @@ Note that we are dealing with a pure MA model, so this is a confidence interval 
 
 <<tidy.opts=list(width.cutoff=50)>>=
 confint(teapot.1)[2,] #gives the CI for the intercept
+
 @
 \end{enumerate}
 \end{document}
