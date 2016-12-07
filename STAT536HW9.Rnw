@@ -90,18 +90,18 @@ We can repeat the same diagnostics with a first difference. By doing this, we ca
 
 
 <<tidy.opts=list(width.cutoff=50)>>=
-acf(diff(bts[,1]),main="ACF")
-pacf(diff(bts[,1]),main="PACF")
-eacf(diff(bts[,1])) # have to make some changes because I added 
+dbts<-diff(bts[,1]) #differenced response
+acf(dbts,main="ACF")
+pacf(dbts,main="PACF")
+eacf(dbts)
 @
 
 \item %8
-We can fit the MA(1) model on the differenced series. Writing out the model, we have:\\
-$$Y_t=e_t-\theta e_{t-1}$$\\
-When considering differencing, we have:\\
-$$ $$ 
+We can fit the MA(1) model on the differenced series. This model will look like:
+$$Y_{t}=\theta_{0}+Y_{t-1}+e_{t}-\theta_{1}e_{t-1}.$$
+
+The estimated model would be: $$Y_{t}=-0.1766+Y_{t-1}+e_{t}-e_{t-1}.$$
 <<tidy.opts = list(width.cutoff = 50)>>=
-dbts <- diff(bts[,1]) #differenced response
 teapot.1 <- arima(dbts, order = c(0,0,1))
 teapot.1
 @
