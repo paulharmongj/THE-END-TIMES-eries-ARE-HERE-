@@ -100,9 +100,9 @@ eacf(dbts)
 We can fit the MA(1) model on the differenced series. This model will look like:
 $$Y_{t}=\theta_{0}+Y_{t-1}+e_{t}-\theta_{1}e_{t-1}.$$
 
-The estimated model would be: $$y_{t}=-0.1766+y_{t-1}+e_{t}-e_{t-1}.$$
+The estimated model would be: $$\Delta y_{t}=-0.1766+y_{t-1}+e_{t}-1e_{t-1}.$$
 
-The estimeated model for the original time series is: $$
+The estimeated model for the original time series is: $$\hat{y_{t}} = -0.1766 + e_{t} - 1e_{t-1}$$
 <<tidy.opts = list(width.cutoff = 50)>>=
 teapot.1 <- arima(dbts, order = c(0,0,1))
 teapot.1
